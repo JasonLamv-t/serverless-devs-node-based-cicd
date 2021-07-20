@@ -1,0 +1,44 @@
+edition: 1.0.0          #  命令行YAML规范版本，遵循语义化版本（Semantic Versioning）规范
+name: fcDeployApp       #  项目名称
+access: "ali-jason"  #  秘钥别名
+
+services:
+  fc-deploy-test: #  服务名称
+    component: devsapp/fc  # 组件名称
+    props: #  组件的属性值
+      region: cn-shenzhen   ## 此处可不修改
+      service:
+        name: fc-deploy-cicd
+        description: 'demo for fc-node-cicd component'
+        internetAccess: true
+        ## 增加日志配置
+        logConfig:
+          enableRequestMetrics: true
+          logstore: serverless-cicd-log
+          project: serverless-cicd-log
+      function:
+        name: http-trigger-function
+        description: this is a test
+        runtime: nodejs12
+        codeUri: ./
+        # ossBucket:
+        # ossKey:  # conflict with codeUri
+        handler: index.handler
+        memorySize: 128
+        timeout: 180  ## 增加时长，避免因为网络问题超时
+      triggers:
+        - name: httpTrigger
+          type: http
+          config:
+            authType: anonymous
+            methods:
+              - GET
+              - POST  ## Github Webhock为POST方式
+      customDomains:
+        - domainName: auto
+          protocol: HTTP
+          routeConfigs:
+            - path: /*
+              methods:
+                - GET
+# 函数计算FC组件文档参考地址：https://github.com/devsapp/fc
