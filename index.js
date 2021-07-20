@@ -12,8 +12,8 @@ exports.handler = async (req, resp, context) => {
 
   const client = new oss({
     region: 'oss-cn-shenzhen', // 根据实际设置填写
-    accessKeyId: 'LTAI5tP7ouDPgVvA7qBqzuvT',
-    accessKeySecret: '8YSMNgVBD6ZFWcJpnmx9kMfZDT3LMR',
+    accessKeyId: '',
+    accessKeySecret: '',
     bucket: 'serverless-cicd'
   })
 
